@@ -1,21 +1,22 @@
 import type { ReactNode } from 'react';
-import '@/app/globals.css';
+import '../globals.css';
 
 export const metadata = {
   title: 'ProductText AI',
   description: 'AI descriptions'
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  params: { locale }
+  params,
 }: {
   children: ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   return (
     <html lang={locale}>
-      <body>{children}</body>
+      <body className="m-0 min-h-[100dvh] bg-white text-zinc-900">{children}</body>
     </html>
   )
 }
