@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from 'react';
+import '@/app/globals.css';
 
 export const metadata = {
   title: 'ProductText AI',
