@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useWorkflow } from '@/stores/workflow';
 import SettingsBar from './SettingsBar';
 import EditableTable from "@/components/generate/EditableTable";
+import { BaseButton } from "@/components/ui/BaseButton";
 import type { ProductRow } from '@/types/product';
 
 
@@ -19,12 +20,18 @@ export default function GenerateView() {
   const uploadFile = () => fileRef.current?.click();
   const onUpload = async () => setRows(SAMPLE);
   const useSample = () => setRows(SAMPLE);
+  const onExport = () => console.log('export')
+  const onGenerate = () => console.log('generate')
 
   if (rows.length > 0) {
     return (
       <section className="mx-auto max-w-6xl space-y-4">
         <SettingsBar />
-        <EditableTable />
+        <div className="flex gap-3 justify-end">
+          <BaseButton variant="secondary" onClick={onExport}>Export CSV</BaseButton>
+          <BaseButton variant="primary" onClick={onGenerate}>Generate</BaseButton>
+        </div>
+        <EditableTable/>
       </section>
     );
   }
@@ -38,18 +45,8 @@ export default function GenerateView() {
         </p>
 
         <div className="mt-4 flex flex-wrap gap-3">
-          <button
-            onClick={uploadFile}
-            className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:opacity-90"
-          >
-            Upload CSV
-          </button>
-          <button
-            onClick={useSample}
-            className="rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm hover:bg-zinc-50"
-          >
-            Try sample
-          </button>
+          <BaseButton variant="primary" onClick={uploadFile}>Upload CSV</BaseButton>
+          <BaseButton variant="secondary" onClick={useSample}>Try sample</BaseButton>
           <input
             ref={fileRef}
             type="file"
