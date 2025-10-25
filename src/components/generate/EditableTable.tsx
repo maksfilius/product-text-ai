@@ -3,7 +3,7 @@
 import { useWorkflow } from '@/stores/workflow';
 
 export default function EditableTable() {
-  const { rows, settings } = useWorkflow();
+  const { rows, settings, setRows } = useWorkflow();
 
   const columns = [
     {
@@ -14,27 +14,42 @@ export default function EditableTable() {
     {
       key: 'description',
       label: 'Description',
-      show: settings.targets.description
+      show: settings.targets.description,
+      multiline: true
     },
     {
       key: 'meta_title',
       label: 'SEO Title',
-      show: settings.targets.seoTitle
+      show: settings.targets.seoTitle,
+      maxLength: 70
     },
     {
       key: 'meta_description',
       label: 'SEO Description',
-      show: settings.targets.seoDescription
+      show: settings.targets.seoDescription,
+      maxLength: 160,
+      multiline: true
     },
     {
       key: 'alt',
       label: 'ALT',
-      show: settings.targets.alt
+      show: settings.targets.alt,
+      maxLength: 125
     },
   ].filter(column => column.show);
 
+  const addRow = () => setRows([...rows, {
+    title: '',
+    description: '',
+    meta_title: '',
+    meta_description: '',
+    alt: ''
+  }]);
+
+  const removeRow = (i:number) => setRows(rows.filter((_, idx) => idx!==i));
+
   return (
-    <div className="overflow-x-auto border border-zinc-200 bg-white shadow-sm">
+    <div className="overflow-x-auto border rounded-2xl border-zinc-200 bg-white shadow-xl">
       <table className="min-w-[900px] w-full">
         <thead className="bg-zinc-50">
         <tr>
@@ -43,18 +58,19 @@ export default function EditableTable() {
               {column.label}
             </th>
           ))}
+          <th className="px-3 py-2" />
         </tr>
         </thead>
-        <tbody className="text-center">
-          {rows.map((row, idx) => {
+        <tbody>
+        {rows.map((row, idx) => {
             return (
               <tr key={idx} className="border-t align-top">
                 {columns.map(column => {
                   switch (column.key) {
                     case 'title':
                       return (
-                        <td key={column.key} className="px-3 py-2">
-                          <input className="w-full rounded-s border bg-white px-2 py-1 outline-none text-sm" placeholder={column.label}/>
+                        <td key={column.key} className="px-3 py-2 text-left">
+                          <input className="w-full rounded-s border bg-white px-2 py-1 outline-none text-sm max-w-80 min-h-12" placeholder={column.label}/>
                         </td>
                       );
                     case 'description':
@@ -65,8 +81,8 @@ export default function EditableTable() {
                       );
                     case 'meta_title':
                       return (
-                        <td key={column.key} className="px-3 py-2">
-                          <input className="w-full rounded-s border bg-white px-2 py-1 outline-none text-sm" placeholder={column.label}/>
+                        <td key={column.key} className="px-3 py-2 text-left">
+                          <input className="w-full rounded-s border bg-white px-2 py-1 outline-none text-sm max-w-80 min-h-12" placeholder={column.label}/>
                         </td>
                       );
                     case 'meta_description':
@@ -77,8 +93,8 @@ export default function EditableTable() {
                       );
                     case 'alt':
                       return (
-                        <td key={column.key} className="px-3 py-2">
-                          <input className="w-full rounded-s border bg-white px-2 py-1 outline-none text-sm" placeholder={column.label}/>
+                        <td key={column.key} className="px-3 py-2 text-left">
+                          <input className="w-full rounded-s border bg-white px-2 py-1 outline-none text-sm max-w-80 min-h-12" placeholder={column.label}/>
                         </td>
                       );
                     default:
@@ -86,9 +102,19 @@ export default function EditableTable() {
                     }
                   }
                 )}
+                <td className="px-3 py-3">
+                  <button onClick={()=>removeRow(idx)} className="text-zinc-500 hover:text-red-600">✕</button>
+                </td>
               </tr>
             );
           })}
+          <tr>
+            <td colSpan={columns.length + 1} className="px-3 py-2">
+              <button onClick={addRow} className="rounded-md border border-zinc-200 px-3 py-1.5 text-sm hover:bg-zinc-50">
+                + Add row
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
