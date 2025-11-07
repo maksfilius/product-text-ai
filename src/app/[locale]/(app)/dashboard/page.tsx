@@ -1,3 +1,5 @@
+import GenerateView from '@/components/generate/GenerateView';
+
 export default function DashboardPage() {
-  return <main>Dashboard</main>;
+  return <GenerateView />;
 }

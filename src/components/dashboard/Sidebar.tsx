@@ -26,7 +26,7 @@ export default function Sidebar({
   const items = navItems(locale);
 
   return (
-    <div className="flex h-[100dvh] flex-col">
+    <div className="flex h-[100dvh] flex-col sticky top-0">
       <div className="relative px-3 py-3">
         <div className={`text-base font-semibold transition-all ${collapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}>
           ProductText
@@ -72,7 +72,7 @@ export default function Sidebar({
         aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         aria-pressed={collapsed}
         onClick={onToggle}
-        className="absolute right-4 bottom-16 inline-flex h-8 w-8 items-center justify-center rounded hover:bg-zinc-100 focus:outline-none focus:ring focus:ring-zinc-200 z-20"
+        className="absolute right-4 bottom-16 inline-flex h-8 w-8 items-center justify-center rounded hover:bg-zinc-100 z-20"
       >
         {collapsed ? (
           <ChevronRightIcon className="h-5 w-5 text-zinc-700" />

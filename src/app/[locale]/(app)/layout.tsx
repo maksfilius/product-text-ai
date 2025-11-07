@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import '@/app/globals.css';
-import AppShell from '../components/dashboard/AppShell';
+import AppShell from '@/components/dashboard/AppShell';
 
 export default async function AppLayout({
     children, params
